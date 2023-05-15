@@ -68,7 +68,7 @@ main {
 
 .date_insert .entradas input {
     padding: 10%;
-    height: 78px;
+    height: 60px;
     font-size: 25px;
     border-radius: 6px;
     border: 1px solid #DCDCDC;
@@ -79,10 +79,31 @@ main {
     border: 2px solid #7965BF;
 }
 
-
-
 .date_insert label {
     color: #7B7B7B;
+}
+
+.date_insert .errorMessage{
+    position: absolute;
+    top: 120px;
+    letter-spacing: 1.8px;
+    font-style: italic;
+    font-size: 8px;
+    text-align: left;
+    color: red;
+    margin: 7px 0 0 0 ;
+}
+
+.date_insert #campoVazioDia{
+    display: none;
+}
+
+.date_insert #campoInvalidoDia{
+    display: none;
+}
+
+.date_insert #dataInvalidaDia{
+    display: none;
 }
 
 .divisao {
