@@ -25,25 +25,28 @@
         <div class="entradas">
           <div class="divCalc">
             <label for="day" id="labelDia">Day</label>
-            <input type="number" id="day" name="day" value="DD" min="1" max="31">
+            <input type="number" id="day" name="day" placeholder="DD" min="1" max="31">
+            <span class="errorMessage" id="campoVazioDia">this field is required</span>
+            <span class="errorMessage" id="campoInvalidoDia">must be a valid day</span>
+            <span class="errorMessage" id="dataInvalidaDia">Must be a valid date</span>
           </div>
 
           <div class="divCalc">
             <label id="labelMes" for="month">Month</label>
-            <input type="number" name="month" id="month" value="MM" min="1" max="12">
+            <input type="number" name="month" id="month" placeholder="MM" min="1" max="12">
           </div>
 
           <div class="divCalc">
             <label id="labelAno" for="year">Year</label>
-            <input type="number" name="year" id="year_input" value="YYYY">
+            <input type="number" name="year" id="year_input" placeholder="YYYY">
           </div>
 
         </div>
 
         <div class="divisao">
           <hr>
-          <button type="button" onclick="diferencaDataAtual()"><img src="./age-calculator-app-main/assets/images/icon-arrow.svg"
-              alt="Confirmar"></button>
+          <button type="button" onclick="diferencaDataAtual()"><img
+              src="./age-calculator-app-main/assets/images/icon-arrow.svg" alt="Confirmar"></button>
         </div>
       </form>
     </div>
@@ -57,25 +60,44 @@
 
   <div class="attribution">
     Challenge by <a href="https://www.frontendmentor.io?ref=challenge" target="_blank">Frontend Mentor</a>.
-    Coded by <a href="#">(Keura)</a>.
+    Coded by <a href="#">Bruno Gabriel Tonholo de Pontes (Keura)</a>.
   </div>
 
   <script>
     var day = document.getElementById("day");
     var month = document.getElementById("month");
     var year = document.getElementById("year_input");
+    var erroDiaVazio = document.getElementById("campoVazioDia");
+    var erroDiaInvalido = document.getElementById("campoInvalidoDia");
+    var erroDataInvalidaDia = document.getElementById("dataInvalidaDia");
 
     function retornaDiaValido() {
-      if (parseInt(day.value) <= 0 || parseInt(day.value) > 31 || day.value == "" || (month.value == 2 && day.value > 29) || (month.value == 4 && day.value > 30) || (month.value == 6 && day.value > 30) || (month.value == 9 && day.value > 30) || (month.value == 11 && day.value > 30)) {
+      erroDiaVazio.style.display = "";
+      erroDiaInvalido.style.display = "";
+      erroDataInvalidaDia.style.display = "";
+
+      if (day.value === "") {
         day.style.border = "1px solid red";
         document.getElementById("labelDia").style.color = "red";
+        erroDiaVazio.style.display = "block";
         return false;
-      } else {
-
-        day.style.border = "";
-        document.getElementById("labelDia").style.color = "";
-        return true;
       }
+      else if (parseInt(day.value) <= 0 || parseInt(day.value) > 31 || (month.value == 2 && day.value > 29) || (month.value == 4 && day.value > 30) || (month.value == 6 && day.value > 30) || (month.value == 9 && day.value > 30) || (month.value == 11 && day.value > 30)) {
+          day.style.border = "1px solid red";
+          document.getElementById("labelDia").style.color = "red";
+          erroDiaInvalido.style.display = "block";
+          return false;
+        } else {
+
+          if (!retornaAnoBissextoValido()) {
+            return false;
+          }
+          erroDiaInvalido.style.display = "";
+          day.style.border = "";
+          document.getElementById("labelDia").style.color = "";
+          return true;
+        }
+
     }
 
     function retornaMesValido() {
@@ -129,12 +151,7 @@
       if (!retornaAnoValido()) {
         validar = true;
       }
-
-
-
       if (!retornaDiaValido()) {
-        validar = true;
-      }else if(!retornaAnoBissextoValido()){
         validar = true;
       }
 
@@ -194,17 +211,16 @@
 
     day.addEventListener('blur', () => {
       retornaDiaValido();
-      retornaAnoBissextoValido();
     })
 
     month.addEventListener('blur', () => {
       retornaMesValido();
-      retornaAnoBissextoValido();
+      retornaDiaValido();
     })
 
     year.addEventListener('blur', () => {
       retornaAnoValido();
-      retornaAnoBissextoValido();
+      retornaDiaValido();
     })
 
   </script>
